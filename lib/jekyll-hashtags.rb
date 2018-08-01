@@ -21,9 +21,14 @@ module Jekyll
         if content.include? BODY_START_TAG
           head, opener, tail = content.partition(OPENING_BODY_TAG_REGEX)
           body, *rest = tail.partition(BODY_END_TAG)
-          return unless body =~ get_hashtag_pattern(doc.site.config)
-          processed_markup = filter_with_hashtag(doc.site.config, base_url).call(body)[:output].to_s
+          context = {
+              "hashtag_pattern" => get_hashtag_pattern(doc.site.config),
+              "tag_url" => get_tag_url(doc.site.config),
+          }
+          processed_markup = filter_with_hashtag(base_url, context).call(body)[:output].to_html
           doc.output = String.new(head) << opener << processed_markup << rest.join
+        else
+          doc.output = filter_with_hashtag(base_url, context).call(content)[:output].to_html
         end
       end
 
@@ -34,11 +39,9 @@ module Jekyll
         #
         # Returns an HTML::Pipeline instance for the given base URL.
         #
-      def filter_with_hashtag(config = {}, base_url = DEFAULT_HASHTAG_BASE_URL)
+      def filter_with_hashtag(base_url = DEFAULT_HASHTAG_BASE_URL, context = {})
         filters[base_url] ||= HTML::Pipeline.new([HTML::Pipeline::HashtagFilter],
-                                                 :hashtag_pattern => get_hashtag_pattern(config),
-                                                 :tag_url => get_tag_url(config)
-                                                )
+                                                 context)
       end
 
       # Public: Filters hash where the key is the mention base URL.
@@ -61,11 +64,11 @@ module Jekyll
         hashtag_config = config["jekyll-hashtags"]
         case hashtag_config
         when nil, NilClass
-          Regexp.new(HTML::Pipeline::HashtagFilter::HashtagPattern)
+          HTML::Pipeline::HashtagFilter::HashtagPattern
         when String
-          Regexp.new(hashtag_config.to_s)
+          hashtag_config.to_s
         when Hash
-          Regexp.new(hashtag_config.fetch("tag_pattern", DEFAULT_HASHTAG_PATTERN))
+          hashtag_config.fetch("tag_pattern", DEFAULT_HASHTAG_PATTERN)
         else
           raise Class.new(Jekyll::Errors::FatalException),
                 "Your jekyll-hashtag config has to either be a" \
@@ -124,10 +127,20 @@ module Jekyll
             " string or a hash. It's a #{hashtag_config.class} right now."
         end
       end
+
+      # Public: Defines the conditions for a document to be tagable.
+      #
+      # doc - the Jekyll::Document or Jekyll::Page
+      #
+      # Returns true if the doc is written & is HTML.
+      def tagable?(doc)
+        (doc.is_a?(Jekyll::Page) || doc.write?) &&
+            doc.output_ext == ".html" || (doc.permalink&.end_with?("/"))
+      end
     end
   end
 end
 
 Jekyll::Hooks.register %i[pages documents], :post_render do |doc|
-  Jekyll::Hashtags.hashtag_it(doc)
+  Jekyll::Hashtags.hashtag_it(doc) if Jekyll::Hashtags.tagable?(doc)
 end

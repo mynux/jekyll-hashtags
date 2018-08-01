@@ -7,3 +7,4 @@ bin
 Gemfile.lock
 pkg/*.gem
 .rspec_status
+spec/blog/_site/

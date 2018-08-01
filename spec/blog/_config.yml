@@ -3,8 +3,7 @@ collections:
     output: true
 
 plugins:
-- jekyll-mentions
-- jekyll-hashtags
+  - jekyll-hashtags
 
 jekyll-hashtags:
   base_url: http://hengwei.me

@@ -5,12 +5,12 @@ RSpec.describe Jekyll::Hashtags do
   let(:config_overrides) { {} }
 
   let(:configs) do
-    Jekyll.configuration(config_overrides.merge(
+    Jekyll.configuration(config_overrides.merge({
                            "skip_config_files" => false,
                            "collections"       => { "docs" => { "output" => true } },
                            "source"            => blog_dir,
                            "destination"       => blog_dir("_site"),
-                        ))
+                        }))
   end
 
   let(:hashtags) { described_class }
@@ -74,9 +74,8 @@ RSpec.describe Jekyll::Hashtags do
     end
 
     it "fetches the custom tag pattern from the config" do
-      expect(hashtags.get_hashtag_pattern(site.config)).to eql(Regexp.new(tag_pattern))
+      expect(hashtags.get_hashtag_pattern(site.config)).to eql(tag_pattern)
     end
-
   end
 
 end
