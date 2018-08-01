@@ -1,7 +1,9 @@
 .bundle
 /*.gem
 /tmp
-/vendor/gems
+vendor/
+.idea/
 bin
 Gemfile.lock
 pkg/*.gem
+.rspec_status

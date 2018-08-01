@@ -1,8 +1,6 @@
 # Jekyll::Hashtags
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/jekyll/hashtags`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+#hashtags support for you jekyll site.
 
 ## Installation
 
@@ -22,7 +20,38 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+
+Add the following to your site's Gemfile
+
+gem 'jekyll-hashtags'
+And add the following to your site's _config.yml
+
+plugins:
+  - jekyll-hashtags
+Note: if jekyll --version is less than 3.5 use:
+
+gems:
+  - jekyll-hashtags
+  
+In any page or post, use @hashtags as you would normally, e.g.
+
+Hey #TradeWar, what do you think of this?
+
+## Configuration
+Have your own social network? No problem. We allow you to configure the base URL of all the hashtags.
+
+To change it, add the following to your Jekyll configuration:
+
+jekyll-hashtags:
+  base_url: https://hengwei.me
+
+An example of Twitter hashtags using jekyll-hashtags:
+
+plugins:
+  - jekyll-hashtags
+
+jekyll-hashtags:
+  base_url: https://hengwei.me
 
 ## Development
 
@@ -32,7 +61,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/jekyll-hashtags.
+Bug reports and pull requests are welcome on GitHub at https://github.com/mynux/jekyll-hashtags.
 
 ## License
 
