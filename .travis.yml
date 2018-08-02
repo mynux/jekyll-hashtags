@@ -1,0 +1,22 @@
+language: ruby
+rvm:
+ - 2.5
+ - 2.4
+ - 2.3
+ - jruby
+ - rbx-3
+
+sudo: false
+
+cache: bundler
+env:
+  global:
+  - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
+
+notifications:
+  email:
+    recipients:
+      - jj@hengwei.me
+    on_success: never
+    on_failure: always
+
