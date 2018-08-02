@@ -1,0 +1,6 @@
+source 'https://rubygems.org'
+group :jekyll_plugins do
+  gem 'jekyll-hashtags'
+end
+
+#gem 'jekyll-hashtags', :path => 'local/path/for/development'
