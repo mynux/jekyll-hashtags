@@ -23,13 +23,7 @@ Or install it yourself as:
 ## Usage
 
 
-Add the following to your site's Gemfile
-
-```ruby
-gem 'jekyll-hashtags'
-```
-
-And add the following to your site's _config.yml
+Add the following to your site's _config.yml
 
 ```ruby
 plugins:
@@ -42,9 +36,9 @@ Note: if jekyll --version is less than 3.5 use:
 gems:
   - jekyll-hashtags
 ```  
-In any page or post, use @hashtags as you would normally, e.g.
+In any page or post, use #hashtags as you would normally, e.g.
 
->  Hey #TradeWar, what do you think of this?
+>  Hey #AmazonGo, what do you think?
 
 ## Development
 
