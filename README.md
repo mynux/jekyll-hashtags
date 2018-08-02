@@ -40,6 +40,11 @@ In any page or post, use #hashtags as you would normally, e.g.
 
 >  Hey #AmazonGo, what do you think?
 
+*to*
+
+> Hey <a href="/tags/AmazonGo" target="_blank" class="hashtag">#AmazonGo</a>, what do you think?
+
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

@@ -21,8 +21,8 @@ RSpec.describe Jekyll::Hashtags do
   let(:happy_case_with_config) { find_by_title(posts, "happy case with config")}
 
   let(:expected_for_code_block)  { "#AmazonGo test under code block" }
-  let(:expected)      { "test <a href=\"/tags/TradeWar\" target=\"_blank\" class=\"hashtag\">#AmazonGo</a> test" }
-  let(:expected_with_config)      { "test <a href=\"http://hengwei.me/tags/TradeWar\" target=\"_blank\" class=\"hashtag\">#AmazonGo</a> test" }
+  let(:expected)      { "test <a href=\"/tags/AmazonGo\" target=\"_blank\" class=\"hashtag\">#AmazonGo</a> test" }
+  let(:expected_with_config)      { "test <a href=\"http://hengwei.me/tags/AmazonGo\" target=\"_blank\" class=\"hashtag\">#AmazonGo</a> test" }
 
   before(:each) do
     site.reset
