@@ -2,6 +2,9 @@
 
 >#hashtags support for you jekyll site. 
 
+[![Gem Version](https://badge.fury.io/rb/jekyll-hashtags.svg)](http://badge.fury.io/rb/jekyll-hashtags)
+[![Build Status](https://travis-ci.com/mynux/jekyll-hashtags.svg?branch=master)](https://travis-ci.com/mynux/jekyll-hashtags)
+
 ## Installation
 
 Add this line to your application's Gemfile:
