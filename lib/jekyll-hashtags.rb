@@ -32,6 +32,15 @@ module Jekyll
         end
       end
 
+      # Public: Find all the tags in the doc and add it to doc.data['tags']
+      def hashtag_init(doc)
+        tags = doc.data['tags']
+        found_tags = doc.content.scan(/#([\p{L}\w\-]+)/)
+        for tag in found_tags
+          tags.append(tag) unless tags.include?(tag)
+        end
+      end
+
         # Public: Create or fetch the filter for the given {{src}} base URL.
         #
         # :doc
@@ -143,4 +152,8 @@ end
 
 Jekyll::Hooks.register %i[pages documents], :post_render do |doc|
   Jekyll::Hashtags.hashtag_it(doc) if Jekyll::Hashtags.tagable?(doc)
+end
+
+Jekyll::Hooks.register [:pages, :documents], :pre_render do |doc|
+  Jekyll::Hashtags.hashtag_init(doc) 
 end
