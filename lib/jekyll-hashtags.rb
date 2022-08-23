@@ -33,12 +33,24 @@ module Jekyll
       end
 
       # Public: Find all the tags in the doc and add it to doc.data['tags']
-      def hashtag_init(doc)
-        tags = doc.data['tags']
-        found_tags = doc.content.scan(/#([\p{L}\w\-]+)/)
-        for tag in found_tags
-          tags.append(tag) unless tags.include?(tag)
+      def hashtag_pre_render(doc)
+        found_hashtags = doc.content.scan(/#([\p{L}\w\-]+)/)
+        if found_hashtags == nil
+          return
         end
+
+        tags = doc.data['tags']
+        # puts tags.class
+        if tags == nil
+          tags = []
+        end
+
+        for tag in found_hashtags
+          # puts '---"#{tag}"---'
+          # puts tag[0].class
+          tags.append(tag[0]) unless tags.include?(tag[0])
+        end
+        doc.data['tags'] = tags
       end
 
         # Public: Create or fetch the filter for the given {{src}} base URL.
@@ -155,5 +167,5 @@ Jekyll::Hooks.register %i[pages documents], :post_render do |doc|
 end
 
 Jekyll::Hooks.register [:pages, :documents], :pre_render do |doc|
-  Jekyll::Hashtags.hashtag_init(doc) 
+  Jekyll::Hashtags.hashtag_pre_render(doc) 
 end
