@@ -34,8 +34,8 @@ module Jekyll
 
       # Public: Find all the tags in the doc and add it to doc.data['tags']
       def hashtag_pre_render(doc)
-        found_hashtags = doc.content.scan(/#([\p{L}\w\-]+)/)
-        if found_hashtags == nil
+        found_hashtags = doc.content.scan(/\s#([\p{L}\w\-]+)/)
+        if found_hashtags.empty?
           return
         end
 
