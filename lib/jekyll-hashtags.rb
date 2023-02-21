@@ -37,23 +37,14 @@ module Jekyll
         if doc.content == nil
           return
         end
-        found_hashtags = doc.content.scan(/\s#([\p{L}\w\-]+)/)
+        found_hashtags = doc.content.scan(/\s#([\p{L}\w\-]+)/).map { | tag | tag[0] }
         if found_hashtags.empty?
           return
         end
 
-        tags = doc.data['tags']
-        # puts tags.class
-        if tags == nil
-          tags = []
-        end
-
-        for tag in found_hashtags
-          # puts '---"#{tag}"---'
-          # puts tag[0].class
-          tags.append(tag[0]) unless tags.include?(tag[0])
-        end
-        doc.data['tags'] = tags
+        tags = doc.data['tags'] || []
+        tags.concat(found_hashtags.uniq)
+        doc.data['tags'] = tags.uniq
       end
 
         # Public: Create or fetch the filter for the given {{src}} base URL.
