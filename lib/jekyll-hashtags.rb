@@ -32,21 +32,6 @@ module Jekyll
         end
       end
 
-      # Public: Find all the tags in the doc and add it to doc.data['tags']
-      def hashtag_pre_render(doc)
-        if doc.content == nil
-          return
-        end
-        found_hashtags = doc.content.scan(/\s#([\p{L}\w\-]+)/).map { | tag | tag[0] }
-        if found_hashtags.empty?
-          return
-        end
-
-        tags = doc.data['tags'] || []
-        tags.concat(found_hashtags.uniq)
-        doc.data['tags'] = tags.uniq
-      end
-
         # Public: Create or fetch the filter for the given {{src}} base URL.
         #
         # :doc
@@ -156,10 +141,27 @@ module Jekyll
   end
 end
 
-Jekyll::Hooks.register %i[pages documents], :post_render do |doc|
-  Jekyll::Hashtags.hashtag_it(doc) if Jekyll::Hashtags.tagable?(doc)
+module Hashtags
+  class Generator < Jekyll::Generator
+    def generate(site)
+      docs = site.posts.docs
+
+      docs.each do | doc |
+        found_hashtags = doc.content.scan(/\s#([\p{L}\w\-]+)/).map { | tag | tag[0] }
+        if found_hashtags.empty?
+          next
+        end
+
+        tags = doc.data['tags'] || []
+        tags.concat(found_hashtags.uniq)
+        doc.data['tags'] = tags.uniq
+      end
+      
+    end
+  end
+  
 end
 
-Jekyll::Hooks.register [:pages, :documents], :pre_render do |doc|
-  Jekyll::Hashtags.hashtag_pre_render(doc) 
+Jekyll::Hooks.register %i[pages documents], :post_render do |doc|
+  Jekyll::Hashtags.hashtag_it(doc) if Jekyll::Hashtags.tagable?(doc)
 end
